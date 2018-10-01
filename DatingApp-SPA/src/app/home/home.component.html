@@ -1,0 +1,14 @@
+<section class="jumbotron text-center">
+    <div *ngIf="!registerMode" class="container">
+      <h1 class="jumbotron-heading">Dating Now!</h1>
+      <p class="lead text-muted">Join this awesome dating site, where you could meet anyone, anywhere!!!</p>
+      <p>
+        <a href="#" class="btn btn-primary mr-2" (click)="registerToggle()">Register</a>
+        <a href="#" class="btn btn-secondary my-2">About</a>
+      </p>
+    </div>
+
+    <div *ngIf="registerMode" class="container">
+      <app-register [valuesFromHome]="values" (cancelRegister)="cancelRegisterMode($event)"></app-register>
+    </div>
+</section>
