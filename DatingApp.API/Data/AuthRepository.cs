@@ -43,6 +43,8 @@ namespace DatingApp.API.Data
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
             
+            user.Created = DateTime.Today;
+
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
