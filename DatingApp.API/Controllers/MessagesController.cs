@@ -116,7 +116,7 @@ namespace DatingApp.API.Controllers
                 _repo.Delete(messageFromRepo);
             
             if(await _repo.SaveAll())
-                return NoContent();
+                return Ok();
             
             throw new Exception("Delete message error");
         }
@@ -135,9 +135,10 @@ namespace DatingApp.API.Controllers
             message.IsRead = true;
             message.DateRead = DateTime.Now;
 
-            await _repo.SaveAll();
-
-            return NoContent();
+            if(await _repo.SaveAll())
+                return NoContent();
+            
+            throw new Exception("mark message error");
         }
     }
 }

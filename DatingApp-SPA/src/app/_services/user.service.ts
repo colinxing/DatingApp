@@ -64,7 +64,7 @@ export class UserService {
   }
 
   deletePhoto(userId: number, id: number) {
-    return this.http.delete(this.baseUrl + 'users/' + userId + '/photos/' + id);
+    return this.http.delete(this.baseUrl + 'users/' + userId + '/photos/' + id, {});
   }
 
   sendLike(id: number, recipientId: number) {
@@ -108,7 +108,7 @@ export class UserService {
   }
 
   markAsRead(messageId: number, userId: number) {
-    this.http.post(this.baseUrl + 'users/' + userId + '/messages/' + messageId + '/read', {}).subscribe();
+    return this.http.post(this.baseUrl + 'users/' + userId + '/messages/' + messageId + '/read', {});
   }
 }
 
