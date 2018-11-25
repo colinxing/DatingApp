@@ -1,11 +1,19 @@
 <section class="jumbotron text-center">
     <div *ngIf="!registerMode" class="container">
-      <h1 class="jumbotron-heading">Dating Now!</h1>
-      <p class="lead text-muted">Join this awesome dating site, where you could meet anyone, anywhere!!!</p>
-      <p>
-        <a class="btn btn-primary mr-2" (click)="registerToggle()">Register</a>
-        <a class="btn btn-secondary my-2">About</a>
-      </p>
+      <div *ngIf="!aboutMode">
+        <h1 class="jumbotron-heading">Dating Now!</h1>
+        <p class="lead text-muted">Howdy girls and boys :)</p>
+        <p>
+          <a class="btn btn-primary mr-2" (click)="registerToggle()">Register</a>
+          <a class="btn btn-secondary my-2" (click)="aboutToggle()">About</a>
+        </p>
+      </div>
+      <div *ngIf="aboutMode">
+          <p class="lead text-muted">Join this awesome dating site, where you could meet anyone, anywhere!!!</p>
+          <p>
+            <a class="btn btn-primary mr-2" (click)="cancelAboutMode()">〈〈Back</a>
+          </p>
+      </div>
     </div>
 
     <div *ngIf="registerMode" class="container">
