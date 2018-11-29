@@ -48,6 +48,7 @@ namespace DatingApp.API.Data
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
+            // await _context.Users.AddAsync(user);
             _context.Add(user);
             await _context.SaveChangesAsync();
 
