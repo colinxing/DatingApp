@@ -74,7 +74,8 @@ namespace DatingApp.API.Controllers
             userFromRepo.City = userForUpdateDto.City;
 
             if(await _repo.SaveAll())
-                return CreatedAtRoute("GetUser", new {id = userFromRepo.Id}, userFromRepo);
+                return Ok(userFromRepo);
+                // return CreatedAtRoute("GetUser", new {id = userFromRepo.Id}, userFromRepo);
 
             throw new Exception($"Updating user {id} failed on save");
         }
