@@ -15,11 +15,21 @@ export class MemberMessagesComponent implements OnInit {
   messages: Message[];
   newMessage: any = {};
   currentUserId: number;
+  id: any;
 
   constructor(private userService: UserService, private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.loadMessages();
+    this.id = setInterval(() => {
+      this.loadMessages();
+      }, 5000);
+  }
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngOnDestroy() {
+    if (this.id) {
+      clearInterval(this.id);
+    }
   }
 
   loadMessages() {
