@@ -15,6 +15,7 @@ namespace DatingApp.API.Helpers
                 })
                 .ForMember(dest => dest.Age, opt => {
                     opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
+                    // opt.UseValue(1);
                 });
             CreateMap<User, UserForDetailedDto>()
                 .ForMember(dest => dest.PhotoUrl, opt => {

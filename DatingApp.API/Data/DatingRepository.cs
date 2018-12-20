@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using DatingApp.API.Helpers;
 using DatingApp.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace DatingApp.API.Data
 {
     public class DatingRepository : IDatingRepository
     {
-        private readonly DataContext _context;
-        public DatingRepository(DataContext context)
+        public DataContext _context;
+        public DatingRepository(DbContextOptions<DataContext> options)
         {
-            this._context = context;
+            this._context = new DataContext(options);
         }
         public void Add<T>(T entity) where T : class
         {
@@ -30,6 +31,11 @@ namespace DatingApp.API.Data
             return await _context.Likes.FirstOrDefaultAsync(u => 
                 u.LikerId == userId && u.LikeeId == recipientId);
         }
+
+        // public async Task<List<Card>> GetCards()
+        // {
+        //     return await _context.Cards.ToListAsync();
+        // }
 
         public async Task<Photo> GetMainPhotoForUser(int userId)
         {

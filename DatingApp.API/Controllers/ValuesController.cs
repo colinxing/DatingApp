@@ -14,11 +14,13 @@ namespace DatingApp.API.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        public readonly IDatingRepository _repo;
         private readonly DataContext _context;
 
-        public ValuesController(DataContext context)
+        public ValuesController(DataContext context, IDatingRepository repo)
         {
             _context = context;
+            _repo = repo;
         }
         // GET api/values
         [AllowAnonymous]
@@ -28,6 +30,14 @@ namespace DatingApp.API.Controllers
             var values = await _context.Values.ToListAsync();
             return Ok(values);
         }
+
+        // [AllowAnonymous]
+        // [HttpGet("cards")]
+        // public async Task<IActionResult> GetCards()
+        // {
+        //     var cards = await _repo.GetCards();
+        //     return Ok(cards);
+        // }
 
         // GET api/values/5
         [AllowAnonymous]

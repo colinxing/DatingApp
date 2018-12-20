@@ -86,6 +86,9 @@ namespace DatingApp.API.Controllers
                 return BadRequest("Could not find user");
             
             var message = _mapper.Map<Message>(messageForCreationDto);
+            
+            // message.Sender = sender;
+            // message.Recipient =  recipient;
 
             _repo.Add<Message>(message);
 
@@ -117,7 +120,7 @@ namespace DatingApp.API.Controllers
                 _repo.Delete(messageFromRepo);
             
             if(await _repo.SaveAll())
-                return Ok();
+                return NoContent();
             
             throw new Exception("Delete message error");
         }

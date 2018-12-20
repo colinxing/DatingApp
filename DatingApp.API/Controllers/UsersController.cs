@@ -9,6 +9,7 @@ using DatingApp.API.Helpers;
 using DatingApp.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.API.Controllers
 {
@@ -20,10 +21,11 @@ namespace DatingApp.API.Controllers
     {
         public readonly IDatingRepository _repo;
         private readonly IMapper _mapper;
-        public UsersController(IDatingRepository repo, IMapper mapper)
+        public UsersController(IMapper mapper, DbContextOptions<DataContext> options)
         {
             this._mapper = mapper;
-            this._repo = repo;
+            // this._repo = repo;
+            _repo = new DatingRepository(options);
         }
         [HttpGet]
         public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
@@ -56,8 +58,9 @@ namespace DatingApp.API.Controllers
             if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
             
+            // User userFromRepo = new User();
             var userFromRepo = await _repo.GetUser(id);
-
+            
             // _mapper.Map(userForUpdateDto, userFromRepo);
             
             // if(await _repo.SaveAll())
@@ -73,11 +76,11 @@ namespace DatingApp.API.Controllers
             userFromRepo.Country = userForUpdateDto.Country;
             userFromRepo.City = userForUpdateDto.City;
 
-            if(await _repo.SaveAll())
-                return Ok(userFromRepo);
+            await _repo.SaveAll();
+            return Ok(userFromRepo);
                 // return CreatedAtRoute("GetUser", new {id = userFromRepo.Id}, userFromRepo);
 
-            throw new Exception($"Updating user {id} failed on save");
+            // throw new Exception($"Updating user {id} failed on save");
         }
 
         [HttpPost("{id}/like/{recipientId}")]

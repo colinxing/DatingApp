@@ -10,6 +10,7 @@ using DatingApp.API.Helpers;
 using DatingApp.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace DatingApp.API.Controllers
@@ -21,19 +22,22 @@ namespace DatingApp.API.Controllers
     {
         private readonly IDatingRepository _repo;
         private readonly IMapper _mapper;
-        private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
+        private readonly CloudinarySettings _cloudinaryConfig;
         private Cloudinary _cloudinary;
 
-        public PhotosController(IDatingRepository repo, IMapper mapper, IOptions<CloudinarySettings> cloudinaryConfig)
+        public PhotosController(IDatingRepository repo, IMapper mapper, IOptions<CloudinarySettings> cloudinaryConfig
+            , DbContextOptions<DataContext> options)
         {
-            this._cloudinaryConfig = cloudinaryConfig;
+            this._cloudinaryConfig = cloudinaryConfig.Value;
+            // this._cloudinaryConfig = cloudinaryConfig;
             this._mapper = mapper;
-            this._repo = repo;
+            // this._repo = repo;
+            _repo = new DatingRepository(options);
 
             Account acc = new Account(
-                _cloudinaryConfig.Value.CloudName,
-                _cloudinaryConfig.Value.ApiKey,
-                _cloudinaryConfig.Value.ApiSecret
+                _cloudinaryConfig.CloudName,
+                _cloudinaryConfig.ApiKey,
+                _cloudinaryConfig.ApiSecret
             );
 
             _cloudinary = new Cloudinary(acc);
@@ -43,7 +47,7 @@ namespace DatingApp.API.Controllers
         public async Task<IActionResult> GetPhoto(int id)
         {
             var photoFromRepo = await _repo.GetPhoto(id);
-
+            
             var photo = _mapper.Map<PhotoForReturnDto>(photoFromRepo);
 
             return Ok(photo);
@@ -84,7 +88,10 @@ namespace DatingApp.API.Controllers
             if(!userFromRepo.Photos.Any(u => u.isMain))
                 photo.isMain = true;
 
-            userFromRepo.Photos.Add(photo);
+            photo.UserId = userId;
+            photo.User = userFromRepo;
+            _repo.Add<Photo>(photo);
+            // userFromRepo.Photos.Add(photo);
 
             if(await _repo.SaveAll())
             {

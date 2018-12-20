@@ -13,6 +13,8 @@ namespace DatingApp.API.Helpers
             response.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
             response.Headers.Add("Access-Control-Allow-Origin", "*");
         }
+
+        // this HttpResponse response这个this很精髓！
         public static void AddPagination(this HttpResponse response, int currentPage, 
             int totalItems, int itemsPerPage, int totalPages)
         {
