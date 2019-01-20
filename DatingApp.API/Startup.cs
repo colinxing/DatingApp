@@ -45,6 +45,7 @@ namespace DatingApp.API
             services.AddCors();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper();
+            // services.AddSession();
             services.AddTransient<Seed>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IDatingRepository, DatingRepository>();
@@ -120,6 +121,7 @@ namespace DatingApp.API
             app.UseAuthentication();
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            // app.UseSession();
             app.UseMvc(routes => {
                 routes.MapSpaFallbackRoute(
                     name: "spa-fallback",
