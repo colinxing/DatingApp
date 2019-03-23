@@ -16,19 +16,21 @@ export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
   user: User;
   registerForm: FormGroup;
-  bsConfig: Partial<BsDatepickerConfig>;
+  bsConfig: Partial<BsDatepickerConfig> = {containerClass: 'theme-red'};
+  a = 'xas';
 
   constructor(private authService: AuthService, private router: Router,
     private alertify: AlertifyService, private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.bsConfig = {
-      containerClass: 'theme-red'
-    },
+    // this.bsConfig = {
+    //   containerClass: 'theme-red'
+    // },
     this.createRegisterForm();
   }
 
   createRegisterForm() {
+    // let map = new Map();
     this.registerForm = this.fb.group({
       gender: ['male'],
       username: ['', Validators.required],
@@ -65,6 +67,11 @@ export class RegisterComponent implements OnInit {
     //   this.alertify.error(error);
     // });
     console.log(this.registerForm.value);
+    // console.log(this.registerForm.dirty);
+  }
+
+  test2() {
+    return 1;
   }
 
   cancel() {

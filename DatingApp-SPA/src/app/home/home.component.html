@@ -3,6 +3,13 @@
       <div *ngIf="!aboutMode">
         <h1 class="jumbotron-heading">Dating Now!</h1>
         <p class="lead text-muted">Howdy girls and boys :)</p>
+
+        <!-- <div [@visibilityChanged]="visibility">
+          <ng-content></ng-content>
+          <p>Can you see me? I should fade in or out...</p>
+        </div>
+        <button (click)="change()">Go</button> -->
+
         <p>
           <a class="btn btn-primary mr-2" (click)="registerToggle()">Register</a>
           <a class="btn btn-secondary my-2" (click)="aboutToggle()">About</a>
@@ -15,7 +22,7 @@
           </p>
       </div>
     </div>
-
+    <!-- <p>{{date}}</p> -->
     <div *ngIf="registerMode" class="container">
       <app-register [valuesFromHome]="values" (cancelRegister)="cancelRegisterMode($event)"></app-register>
     </div>

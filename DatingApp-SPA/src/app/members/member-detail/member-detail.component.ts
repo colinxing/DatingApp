@@ -18,6 +18,8 @@ export class MemberDetailComponent implements OnInit {
   user: User;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
+  time: number;
+  inter: any;
 
   constructor(private userService: UserService, private authService: AuthService,
     private alertify: AlertifyService, private route: ActivatedRoute) { }
@@ -26,6 +28,16 @@ export class MemberDetailComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.user = data['user'];
     });
+
+    this.time = 0;
+    this.inter = setInterval(() => {
+      this.time++;
+      // console.log('OK:' + this.time);
+      if (this.time === 10) {
+        this.sendLike(this.user.id);
+        clearInterval(this.inter);
+      }}, 60000);
+
     this.route.queryParams.subscribe(params => {
       const selectedTab = params['tab'];
       this.memberTabs.tabs[selectedTab > 0 ? selectedTab : 0].active = true;
@@ -44,6 +56,14 @@ export class MemberDetailComponent implements OnInit {
 
     this.galleryImages = this.getImages();
   }
+
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngOnDestroy() {
+    if (this.inter) {
+      clearInterval(this.inter);
+    }
+  }
+
   getImages() {
     const imageUrls = [];
     for (let i = 0; i < this.user.photos.length; i++) {

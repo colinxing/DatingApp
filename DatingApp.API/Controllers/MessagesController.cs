@@ -49,7 +49,7 @@ namespace DatingApp.API.Controllers
             
             var messageFromRepo = await _repo.GetMessagesForUser(messageParams);
 
-            var messages = _mapper.Map<IEnumerable<MessageToReturnDto>>(messageFromRepo);
+            var messages = _mapper.Map<IEnumerable<MessageToReturnDto>>(messageFromRepo.res);
             
             Response.AddPagination(messageFromRepo.CurrentPage, messageFromRepo.PageSize,
                 messageFromRepo.TotalCount, messageFromRepo.TotalPage);
@@ -84,8 +84,11 @@ namespace DatingApp.API.Controllers
 
             if(recipient == null)
                 return BadRequest("Could not find user");
-            
+
             var message = _mapper.Map<Message>(messageForCreationDto);
+            
+            // var mess = new Message();
+            // mess.Id = userId;
             
             // message.Sender = sender;
             // message.Recipient =  recipient;

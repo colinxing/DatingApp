@@ -12,9 +12,17 @@ namespace DatingApp.API.Data
     public class DatingRepository : IDatingRepository
     {
         public DataContext _context;
+        public int a;
+        // public IAuthRepository _repo;
+
+        // public static List<User> u = new List<User>();
+        // public PagedList<User> _user = new PagedList<User>(u, 1, 1, 1);
+        // public static List<Message> m = new List<Message>();
+        // public PagedList<Message> _mes = new PagedList<Message>(items: m , count: 1, pageNumber: 1, pageSize: 1);
         public DatingRepository(DbContextOptions<DataContext> options)
         {
             this._context = new DataContext(options);
+            // this._repo = new AuthRepository(_context);
         }
         public void Add<T>(T entity) where T : class
         {
@@ -50,12 +58,47 @@ namespace DatingApp.API.Data
 
         public async Task<User> GetUser(int id)
         {
-            var user = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.Id == id);
-            return user;
+            var user = _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.Id == id);
+            return await user;
         }
 
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
+            // var users1 = (from a in _context.Likes
+            //    join b in _context.Users on a.LikeeId equals b.Id
+            //    join c in _context.Likes on b.Id equals c.LikerId
+            //    where a.LikerId == 1
+            //               let likeeId = c.LikeeId
+            //               select new { a.LikeeId, likeeId });
+            
+            // var users2 = (from a in _context.Users
+            //    join b in _context.Likes on a.Id equals b.LikeeId
+            //    join c in _context.Users on b.LikerId equals c.Id
+            //    where c.Id == 1
+            //               let knownAs = c.KnownAs
+            //               select new {a.KnownAs, knownAs});
+
+            // var users22 = (from a in _context.Users
+            //    join b in _context.Likes on a.Id equals b.LikeeId
+            //    join c in _context.Users on b.LikerId equals c.Id
+            //               let knownAs = c.KnownAs
+            //               select new {a.KnownAs, knownAs});
+
+            // var users3 = (from a in _context.Users
+            //    join c in _context.Likes on a.Id equals c.LikeeId
+            //    where a.Id == 4
+            //    select c.Liker.KnownAs);
+            
+            // var users4 = (from a in _context.Users
+            //    join c in _context.Likes on a.Id equals c.LikeeId
+            //    where a.Id == 1
+            //    select c.Liker.KnownAs);
+            
+            // var users5 = (from a in _context.Users
+            //    join c in _context.Likes on a.Id equals c.LikerId
+            //    where c.LikeeId == 1
+            //    select a.Id);
+            
             var users = _context.Users.Include(p => p.Photos).OrderByDescending(u => u.LastActive).AsQueryable();
             users = users.Where(u => u.Id != userParams.UserId);
             if(userParams.Gender == "male" || userParams.Gender == "female")
@@ -100,22 +143,22 @@ namespace DatingApp.API.Data
 
         private async Task<IEnumerable<int>> GetUserLikes(int id, bool likers)
         {
-            // var user = await _context.Users
-            //     .Include(x => x.Likers)
-            //     .Include(x => x.Likees)
-            //     .FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _context.Users
+                .Include(x => x.Likers)
+                .Include(x => x.Likees)
+                .FirstOrDefaultAsync(u => u.Id == id);
             
-            var likes = _context.Likes.AsQueryable();
+            // var likes = _context.Likes.AsQueryable();
 
             if(likers)
             {
-                return await likes.Where(u => u.LikeeId == id).Select(i => i.LikerId).ToListAsync();
-                // return user.Likers.Where(u => u.LikeeId == id).Select(i => i.LikerId);
+                // return await likes.Where(u => u.LikeeId == id).Select(i => i.LikerId).ToListAsync();
+                return user.Likers.Select(i => i.LikerId);
             }
             else
             {
-                return await likes.Where(u => u.LikerId == id).Select(i => i.LikeeId).ToListAsync();
-                // return user.Likees.Where(u => u.LikerId == id).Select(i => i.LikeeId);
+                // return await likes.Where(u => u.LikerId == id).Select(i => i.LikeeId).ToListAsync();
+                return user.Likees.Where(u => u.LikerId == id).Select(i => i.LikeeId);
             }
         }
 
@@ -126,11 +169,15 @@ namespace DatingApp.API.Data
 
         public async Task<Message> GetMessage(int id)
         {
+            // var mes = new Message();
+            // var mes = await _context.Messages.FirstOrDefaultAsync(m => m.Id == id);
+            // return mes;
             return await _context.Messages.FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
         {
+            // var messages = new List<Message>().AsQueryable();
             var messages = _context.Messages
                 .Include(u => u.Sender).ThenInclude(p => p.Photos)
                 .Include(u => u.Recipient).ThenInclude(p => p.Photos)

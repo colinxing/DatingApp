@@ -11,8 +11,8 @@ import { Observable, of } from 'rxjs';
 export class MemberDetailResolver implements Resolve<User> {
     constructor(private userService: UserService, private router: Router, private alertify: AlertifyService) {}
 
-    resolve(route: ActivatedRouteSnapshot): Observable<User> {
-        return this.userService.getUser(route.params['id']).pipe(
+    resolve(route: ActivatedRouteSnapshot) {
+        return this.userService.getUser(+route.params['id']).pipe(
             catchError(error => {
                 this.alertify.error('Problem retrirving data');
                 this.router.navigate(['/members']);

@@ -18,5 +18,8 @@ namespace DatingApp.API.Helpers
 
         public bool Likees { get; set; } = false;
         public bool Likers { get; set; } = false;
+        // public bool Red { get; set; } = false;
+        // public bool Blue { get; set; } = false;
+        // public bool Green { get; set; } = false;
     }
 }

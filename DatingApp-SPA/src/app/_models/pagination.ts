@@ -1,3 +1,5 @@
+import { Message } from './message';
+
 export interface Pagination {
     currentPage: number;
     totalPages: number;
@@ -7,5 +9,10 @@ export interface Pagination {
 
 export class PaginatedResult<T> {
     result: T;
+    pagination: Pagination;
+}
+
+export interface PaginatedResultMes {
+    result: Message[];
     pagination: Pagination;
 }

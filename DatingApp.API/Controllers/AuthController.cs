@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 namespace DatingApp.API.Controllers
 {
@@ -25,7 +26,6 @@ namespace DatingApp.API.Controllers
             this._mapper = mapper;
             this._config = config;
             this._repo = repo;
-
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
@@ -76,6 +76,8 @@ namespace DatingApp.API.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             var user = _mapper.Map<UserForListDto>(userFromRepo);
+            
+            // HttpContext.Session.SetInt32("id", user.Id);
 
             return Ok(new
             {

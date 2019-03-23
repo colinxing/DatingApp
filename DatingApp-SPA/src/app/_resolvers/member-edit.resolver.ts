@@ -14,6 +14,11 @@ export class MemberEditResolver implements Resolve<User> {
         private authService: AuthService, private alertify: AlertifyService) {}
 
     resolve(route: ActivatedRouteSnapshot): Observable<User> {
+        if (localStorage.getItem('token') == null) {
+            this.alertify.error('Problem retrirving your data');
+            this.router.navigate(['/members']);
+            return of(null);
+        }
         return this.userService.getUser(this.authService.decodedToken.nameid).pipe(
             catchError(error => {
                 this.alertify.error('Problem retrirving your data');

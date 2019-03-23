@@ -16,7 +16,7 @@ import { tokenGetter } from 'src/app/app.module';
 })
 export class PhotoEditorComponent implements OnInit {
   @Input() photos: Photo[];
-  @Output() getMemberPhotoChange = new EventEmitter<string>();
+  // @Output() getMemberPhotoChange = new EventEmitter<string>();
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
@@ -74,6 +74,7 @@ export class PhotoEditorComponent implements OnInit {
       this.currentMain.isMain = false;
       photo.isMain = true;
       this.authService.changeMemberPhoto(photo.url);
+      this.authService.currentPhotoUrl = photo.url;
       this.authService.currentUser.photoUrl = photo.url;
       localStorage.setItem('user', JSON.stringify(this.authService.currentUser));
     }, error => {

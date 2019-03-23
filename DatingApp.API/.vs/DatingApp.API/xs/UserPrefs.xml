@@ -1,7 +1,11 @@
 ﻿<Properties StartupConfiguration="{44245E6E-98A5-496F-A17A-9C82D80C7E82}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/AuthController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
     <Files>
-      <File FileName="Controllers/AuthController.cs" Line="48" Column="28" />
+      <File FileName="Controllers/AuthController.cs" Line="67" Column="1" />
+      <File FileName="Program.cs" Line="8" Column="42" />
+      <File FileName="appsettings.Development.json" Line="1" Column="1" />
+      <File FileName="appsettings.json" Line="6" Column="31" />
+      <File FileName="Properties/launchSettings.json" Line="29" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

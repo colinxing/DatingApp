@@ -2,47 +2,84 @@
     <h2>Your matches - {{pagination.totalItems}} found</h2>
 </div>
 
-<div class="container mt-3">
+<!-- <button type="button" class="btn btn-info" (click)="test()" style="margin-left:10px">test</button> -->
+
+<!-- <div class="btn-group">
+  <button class="btn btn-primary" [(ngModel)]="c" btnRadio = false>xsasxa</button>
+  <button class="btn btn-primary" [(ngModel)]="c" btnRadio = true>xsasxa</button>
+</div> -->
+
+<!-- <input type="text" (keydown)="OOO($event)"/> -->
+  <!-- <div *ngFor="let color of colors">
+    <label class="checkbox-inline"></label>
+    <input type="checkbox" (keydown.a)="OOO()">{{color.name}}
+  </div> -->
+
+<div class="container col-9 text-md-center">
 
   <form class="form-inline" #form="ngForm" (ngSubmit)="loadUsers()" novalidate>
       <div class="form-group">
         <label for="minAge">Age From</label>
         <input type="number" class="form-control ml-1" style="width: 70px" id="minAge"
-          [(ngModel)]="userParams.minAge" name="minAge">
+          [(ngModel)]="userParams.minAge" (change)="check()" name="minAge">
+          <!-- <div *ngIf="c">Known as is required</div> -->
       </div>
     
+      <!-- (change)很关键！！！！！！！！！！ -->
       <div class="form-group px-2">
         <label for="maxAge">Age To</label>
         <input type="number" class="form-control ml-1" style="width: 70px" id="maxAge"
-          [(ngModel)]="userParams.maxAge" name="maxAge">
+          [(ngModel)]="userParams.maxAge" (change)="loadUsers()" name="maxAge">
       </div>
     
       <div class="form-group px-2">
         <label for="gender">Show: </label>
         <select class="form-control ml-1" style="width: 130px" id="gender"
-          [(ngModel)]="userParams.gender" name="gender">
+          [(ngModel)]="userParams.gender" (change)="loadUsers()" name="gender">
           <option *ngFor="let gender of genderList" [value]="gender.value">
             {{gender.display}}
           </option>
         </select>
       </div>
+
+      <div class="form-group px-2">
+        <div *ngFor="let color of colors">
+          <label class="checkbox-inline"></label>
+          <input type="checkbox" name="color.name" id="name.id" [checked]="color.status" (change)="changecolor(color)">{{color.name}}
+        </div>
+      </div>
+
+      <!-- <div class="form-group px-2">
+        <label class="checkbox-inline">Red</label>
+        <input type="checkbox" id="color" name="color" [(ngModel)]="userParams.Red"/>
+        <label class="checkbox-inline">Blue</label>
+        <input type="checkbox" id="color" name="color" [(ngModel)]="userParams.Blue"/>
+        <label class="checkbox-inline">Green</label>
+        <input type="checkbox" id="color" name="color" [(ngModel)]="userParams.Green"/>
+      </div> -->
+
       <button type="submit" class="btn btn-primary" style="margin-left:10px">Apply Filters</button>
       <button type="button" class="btn btn-info" (click)="resetFilters()" style="margin-left:10px">Reset Filter</button>
 
-      <div class="col">
+      <br/>
+      <br/>
+      <br/>
+
+      <div class="col-7">
         <div class="btn-group float-right">
+          <!-- <button type="button" class="btn btn-primary" name="orderBy" (click)="look('lastActive')">lastActive</button> -->
           <button type="button" name="orderBy" class="btn btn-primary" 
-          [(ngModel)]="userParams.orderBy" (click)="loadUsers()" btnRadio="lastActive">Last Active</button>
+          [(ngModel)]="userParams.orderBy" (click)="loadUsers()" btnRadio="lastactive">Last Active</button>
           <button type="button" name="orderBy" class="btn btn-primary" 
           [(ngModel)]="userParams.orderBy" (click)="loadUsers()" btnRadio="created">Newest Members</button>
         </div>
       </div>
-
   </form>
   <br>
 
   <div class="row">
-    <div *ngFor="let user of users" class="col-lg-2 col-md-3 col-sm-6">
+    <div *ngFor="let user of users" class="col-lg-2 col-md-3 col-sm-12">
+      <!-- <button type="button" name="nn" class="btn btn-primary" (click)="look(user.knownAs)">Newest Members</button> -->
       <app-member-card [user]="user"></app-member-card>
     </div>
   </div>
@@ -57,3 +94,6 @@
               previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
   </pagination>
 </div>
+
+<script>
+</script>

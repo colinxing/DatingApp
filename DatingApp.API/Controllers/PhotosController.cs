@@ -22,7 +22,8 @@ namespace DatingApp.API.Controllers
     {
         private readonly IDatingRepository _repo;
         private readonly IMapper _mapper;
-        private readonly CloudinarySettings _cloudinaryConfig;
+        // private readonly CloudinarySettings _cloudinaryConfig = new CloudinarySettings(a: "dypilwcil", b: "339154614158563", c: "SYH3Wy1PMuDfhSPgRMY0u-fj7V0");
+        private readonly CloudinarySettings _cloudinaryConfig;   
         private Cloudinary _cloudinary;
 
         public PhotosController(IDatingRepository repo, IMapper mapper, IOptions<CloudinarySettings> cloudinaryConfig
@@ -39,7 +40,7 @@ namespace DatingApp.API.Controllers
                 _cloudinaryConfig.ApiKey,
                 _cloudinaryConfig.ApiSecret
             );
-
+            
             _cloudinary = new Cloudinary(acc);
         }
 
@@ -89,7 +90,7 @@ namespace DatingApp.API.Controllers
                 photo.isMain = true;
 
             photo.UserId = userId;
-            photo.User = userFromRepo;
+            // photo.User = userFromRepo;
             _repo.Add<Photo>(photo);
             // userFromRepo.Photos.Add(photo);
 

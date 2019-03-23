@@ -13,3 +13,7 @@
     background-color: white;
     border-top: none;
 }
+
+h1.ok {color: pink;}
+
+h1.ok:hover {color: red; text-decoration:underline; cursor:pointer}

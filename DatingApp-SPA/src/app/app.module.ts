@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -33,6 +34,7 @@ import { TimeAgoPipe } from 'time-ago-pipe';
 import { ListsResolver } from './_resolvers/lists.resolver';
 import { MessagesResolver } from './_resolvers/messages.resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { PaginatedResult } from './_models/pagination';
 
 export function tokenGetter() {
     return localStorage.getItem('token');
@@ -56,6 +58,7 @@ export function tokenGetter() {
    ],
    imports: [
       BrowserModule,
+      BrowserAnimationsModule,
       HttpClientModule,
       FormsModule,
       ReactiveFormsModule,
@@ -79,6 +82,7 @@ export function tokenGetter() {
       AuthService,
       ErrorInterceptorProvider,
       AlertifyService,
+      PaginatedResult,
       AuthGuard,
       UserService,
       MemberDetailResolver,

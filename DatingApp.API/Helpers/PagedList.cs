@@ -12,14 +12,14 @@ namespace DatingApp.API.Helpers
         public int TotalPage { get; set; }
         public int PageSize { get; set; }
         public int TotalCount { get; set; }
-
+        public List<T> res { get; set; }
         public PagedList(List<T> items, int count, int pageNumber, int pageSize)
         {
             TotalCount = count;
             PageSize = pageSize;
             CurrentPage = pageNumber;
             TotalPage = (int)Math.Ceiling(count / (double)pageSize);
-            this.AddRange(items);
+            res = items;
         }
 
         public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
